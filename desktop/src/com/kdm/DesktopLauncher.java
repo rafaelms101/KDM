@@ -6,6 +6,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new KDM(), config);
+		new LwjglApplication(new KDM(), "KDM", 1760,1280);
 	}
 }
