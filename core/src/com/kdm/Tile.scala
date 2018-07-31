@@ -8,6 +8,8 @@ import scala.collection.mutable
 object Tile {
   var highlightTextures = mutable.Map[HighlightColor, Texture]()
 
+
+
   def loadHighlightTextures(): Unit = {
     if (highlightTextures.size == 0) {
       highlightTextures(red) = new Texture(Gdx.files.internal("red_mark.png"))
@@ -20,6 +22,11 @@ object Tile {
 class Tile(val line: Int, val col: Int) extends Node {
   var terrain: Terrain = null
   var creatureOn: Creature = null
+
+  def impassable: Boolean = {
+    if (terrain == null) false
+    else terrain.impassable
+  }
 
   override def _mouseIsInside(mx: Int, my: Int): List[Node] = {
     val nodes = super._mouseIsInside(mx, my)

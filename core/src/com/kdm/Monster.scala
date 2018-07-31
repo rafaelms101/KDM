@@ -18,7 +18,9 @@ abstract class Monster(img: String) extends Creature(img) {
   }
 
   def distance(dline: Int, dcol: Int): Int = {
-    distance(individualPositions, dline, dcol)
+    individualPositions.map {src =>
+      Util.distance(src, (dline, dcol))
+    }.min
   }
 
   def distance(player: Player): Int = {
@@ -81,17 +83,11 @@ abstract class Monster(img: String) extends Creature(img) {
     }
   }
 
-  private def distance(positions: List[(Int, Int)], dline: Int, dcol: Int): Int = {
-    positions.map {pair =>
-      Math.abs(pair._1 - dline) + Math.abs(pair._2 - dcol)
-    }.min
-  }
-
-  private def individualPositions: List[(Int, Int)] = List((line,col), (line+1,col), (line, col+1), (line+1,col+1))
+  def individualPositions: List[(Int, Int)] = List((line,col), (line+1,col), (line, col+1), (line+1,col+1))
 
   private var scheduledCollision: List[Player] = Nil
 
-
+//TODO: what happens if a monster collides with a player and there is a impassable terrain right ahead
   def moveSingleTile(dir: (Int, Int)): Unit = {
     val oldPositions = individualPositions
 
@@ -107,7 +103,7 @@ abstract class Monster(img: String) extends Creature(img) {
       if (tile.creatureOn != null) {
         tile.creatureOn match {
           case player: Player => scheduledCollision = player :: scheduledCollision
-          case _ => _
+          case _ =>
         }
       }
     }
